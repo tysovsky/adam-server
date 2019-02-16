@@ -9,149 +9,174 @@ var userCollection = 'users',
 
 
 exports.getUsers = function(callback){
-    MongoClient.connect(dbURL, function(error, db){
+    try{
+        MongoClient.connect(dbURL, function(error, db){
 
-        if(!error){
-            var collection = db.collection(userCollection);
+            if(!error){
+                var collection = db.collection(userCollection);
 
-            collection.find().toArray(function(err, users){
-                db.close();
+                collection.find().toArray(function(err, users){
+                    db.close();
 
-                if(!err){
-                    callback(users);
-                }
-            });
-        }
-        else{
-            callback([]);
-        }
-
-
-    });
+                    if(!err){
+                        callback(users);
+                    }
+                });
+            }
+            else{
+                callback(null);
+            }
+        });
+    }
+    catch(err){
+        callback(null);
+    }
 }
 
 exports.getUser = function(user_id, callback){
-    MongoClient.connect(dbURL, function(error, db){
+    try{
+        user_id = ObjectID(user_id);
+        MongoClient.connect(dbURL, function(error, db){
 
-        if(!error){
-            var collection = db.collection(userCollection);
+            if(!error){
+                var collection = db.collection(userCollection);
 
-            collection.find({_id: ObjectID(user_id)}).toArray(function(err, users){
-                db.close();
+                collection.find({_id: user_id}).toArray(function(err, users){
+                    db.close();
 
-                if(!err && users.length > 0){
-                    callback(users[0]);
-                }
-            });
-        }
-        else{
-            callback(null);
-        }
-
-
-    });
+                    if(!err && users.length > 0){
+                        callback(users[0]);
+                    }
+                });
+            }
+            else{
+                callback(null);
+            }
+        });
+    }
+    catch(err){
+        callback(null);
+    }
 }
 
 exports.getUserOrders = function(user_id, callback){
-    MongoClient.connect(dbURL, function(error, db){
+    try{
+        MongoClient.connect(dbURL, function(error, db){
 
-        if(!error){
-            var collection = db.collection(ordersCollection);
+            if(!error){
+                var collection = db.collection(ordersCollection);
 
-            collection.find({UserId: user_id}).toArray(function(err, orders){
-                db.close();
+                collection.find({UserId: user_id}).toArray(function(err, orders){
+                    db.close();
 
-                callback(orders);
-            });
-        }
-        else{
-            callback(null);
-        }
-    });
+                    callback(orders);
+                });
+            }
+            else{
+                callback(null);
+            }
+        });
+    }
+    catch(err){
+        callback(null);
+    }
 }
 
 exports.getOrders = function(callback){
-    MongoClient.connect(dbURL, function(error, db){
+    try{
+        MongoClient.connect(dbURL, function(error, db){
 
-        if(!error){
-            var collection = db.collection(ordersCollection);
+            if(!error){
+                var collection = db.collection(ordersCollection);
 
-            collection.find().toArray(function(err, orders){
-                db.close();
+                collection.find().toArray(function(err, orders){
+                    db.close();
 
-                callback(orders);
-            });
-        }
-        else{
-            callback(null);
-        }
-
-
-    });
+                    callback(orders);
+                });
+            }
+            else{
+                callback(null);
+            }
+        });
+    }
+    catch(err){
+        callback(null);
+    }
 }
 
 exports.getDishes = function(callback){
-    MongoClient.connect(dbURL, function(error, db){
+    try{
+        MongoClient.connect(dbURL, function(error, db){
 
-        if(!error){
-            var collection = db.collection(dishesCollection);
+            if(!error){
+                var collection = db.collection(dishesCollection);
 
-            collection.find().toArray(function(err, dishes){
-                db.close();
+                collection.find().toArray(function(err, dishes){
+                    db.close();
 
-                if(!err){
-                    callback(dishes);
-                }
-            });
-        }
-        else{
-            callback([]);
-        }
-
-
-    });
+                    if(!err){
+                        callback(dishes);
+                    }
+                });
+            }
+            else{
+                callback(null);
+            }
+        });
+    }
+    catch(err){
+        callback(null);
+    }
 }
 
 exports.getDish = function(dish_id, callback){
-    MongoClient.connect(dbURL, function(error, db){
+    try{
+        dish_id = ObjectID(dish_id);
+        MongoClient.connect(dbURL, function(error, db){
 
-        if(!error){
-            var collection = db.collection(dishesCollection);
+            if(!error){
+                var collection = db.collection(dishesCollection);
 
-            collection.find({_id: ObjectID(dish_id)}).toArray(function(err, dishes){
-                db.close();
+                collection.find({_id: dish_id}).toArray(function(err, dishes){
+                    db.close();
 
-                if(!err && dishes.length > 0){
-                    callback(dishes[0]);
-                }
-            });
-        }
-        else{
-            callback(null);
-        }
-
-
-    });
+                    if(!err && dishes.length > 0){
+                        callback(dishes[0]);
+                    }
+                });
+            }
+            else{
+                callback(null);
+            }
+        });
+    }
+    catch(err){
+        callback(null);
+    }
 }
 
 exports.getDishOrders = function(dish_id, callback){
-    MongoClient.connect(dbURL, function(error, db){
+    try{
+        MongoClient.connect(dbURL, function(error, db){
 
-        if(!error){
-            var collection = db.collection(ordersCollection);
+            if(!error){
+                var collection = db.collection(ordersCollection);
 
-            collection.find({DishId: dish_id}).toArray(function(err, orders){
-                db.close();
+                collection.find({DishId: dish_id}).toArray(function(err, orders){
+                    db.close();
 
-                callback(orders);
-            });
-        }
-        else{
-            callback(null);
-        }
-
-
-    });
+                    callback(orders);
+                });
+            }
+            else{
+                callback(null);
+            }
+        });
+    }
+    catch(err){
+        callback(null);
+    }
 }
 
 exports.updateFirebaseToken = function(user_id, firebase_id, callback){
